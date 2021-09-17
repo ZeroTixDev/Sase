@@ -8,7 +8,7 @@ Case assumptions:
 ``C``(captial) assumes a descriptive function name beginning with a captial
 
 Expections:
-``_Captial_Captail`` can be made in languages that are more snakecase based like Rust and Python 
+``_Captial_Captial`` can be made in languages that are more snakecase based like Rust and Python 
 ``_Captial_Lowercase`` can also be accepted based on the situation but generally discouraged
 
 
