@@ -30,4 +30,7 @@ Rules/What To use:
 
 (So far)
 
-created by ZeroTix
+created by ZeroTix.
+
+proofed/redacted by 10maurycy10.
+
