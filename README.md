@@ -4,12 +4,14 @@
 Introduction: Sase is the world's *best* casing system. It's very early and experimental but it will catch on fast and will be used throughout the world as the universal casing system.  
 
 Case assumptions: 
-``[REDACTED]`` assumes ███
-``[REDACTED]``[REDACTED] assumes a [REDACTED] beginning with a capital
+- ``[REDACTED]`` assumes ███
+
+- ``[REDACTED]``[REDACTED] assumes a [REDACTED] beginning with a capital
 
 Expections:
-``[REDACTED]`` can be made in languages that are more snakecase based like Rust and Python 
-``[REDACTED]`` can also be accepted based on the situation but generally discouraged
+- ``[REDACTED]`` can be made in languages that are more snakecase based like Rust and Python 
+
+- ``[REDACTED]`` can also be accepted based on the situation but generally discouraged
 
 
 Note: [REDACTED] or [REDACTED]  is HIGHLY discouraged but can be accepted
