@@ -2,120 +2,121 @@
 
 
 
-// Code from my npm package (accurate-game-loop) 
+// Code from my npm package (accurate-game-loop)
 
 
-interface Option {
-	delta_log?: boolean;
-	dif_log?: boolean;
-	logs: boolean;
-	time_fn?: () => number;
+// REDACTED COGNITOHAZARDUS IDS
+
+interface R0 {
+	R1?: boolean;
+	R2?: boolean;
+	R3: boolean;
+	R4?: () => number;
 }
 
 module.exports = class Loop {
-	_update: Function;
-	_lastFrameTime: number;
-	_running: boolean;
-	_step: number;
-	_deltas: Array<number>;
-	constructor(update = () => {}, public _times: number = 10, public _option?: Option) {
-		this._update = update;
-		this._running = false;
-		this._step = 1000 / this._times;
-		this._lastFrameTime = this._time();
-		this._deltas = Array<number>();
+	R5: Function;
+	R6: number;
+	R7: boolean;
+	R8: number;
+	R9: Array<number>;
+	constructor(R10 = () => {}, public R11: number = 10, public _R0?: R0) {
+		this.R5 = R10;
+		this.R7 = false;
+		this.R8 = 1000 / this.R11;
+		this.R6 = this._time();
+		this.R9 = Array<number>();
 	}
 	_nano() {
 		const hrtime = process.hrtime();
 		return (+hrtime[0]) * 1e9 + (+hrtime[1]);
 	}
-	_ConvertSecondsToNano(sec: number): number {
+	_convert_seconds_to_nano(sec: number): number {
 		return sec * 1e9;
 	}
-	_ConvertNanoToSeconds(nano: number): number {
+	_convert_nano_to_seconds(nano: number): number {
 		return nano * (1 / 1e9);
 	}
-	_ConvertNanoToMs(nano: number): number {
-		return this._ConvertNanoToSeconds(nano) * 1000;
+	_convert_nano_to_ms(nano: number): number {
+		return this._convert_nano_to_seconds(nano) * 1000;
 	}
-	_ConvertMsToNano(ms: number): number {
+	_convert_ms_to_nano(ms: number): number {
 		return ms * 1e6;
 	}
 	now_ms(): number {
-		return this._ConvertNanoToMs(this._time());
+		return this._convert_nano_to_ms(this._time());
 	}
-	_time(): number {
-		return this._option?.time_fn?.() ?? this._nano();
+	time(): number {
+		return this._R0?.R4?.() ?? this._nano();
 	}
 	start(): Loop {
-		this._running = true;
-		this._lastFrameTime = this._time();
-		this._deltas = Array<number>();
-		const expectedLength = this._ConvertMsToNano(this._step);
-		const _interval = Math.max(Math.floor(this._step - 1), 16);
+		this.R7 = true;
+		this.R6 = this._time();
+		this.R9 = Array<number>();
+		const expectedLength = this._ConvertMsToNano(this.R8);
+		const interval = Math.max(Math.floor(this.R8 - 1), 16);
 		const jitterThreshold = 3; // ms
-		const maxDeltaLength = Math.ceil(((1 / this._step) * 1000) / 2) + 1;
-		const _this = this; // changes to _this will also happen on this
+		const maxDeltaLength = Math.ceil(((1 / this.R8) * 1000) / 2) + 1;
+		
+		let target = this._time();
 
-		let _target = this._time();
+		function tick() {
+			if (!_this.R7) return;
 
-		function _tick() {
-			if (!_this._running) return;
+			const now = this._time();
+			const delta = now -this.R6;
 
-			const now = _this._time();
-			const delta = now - _this._lastFrameTime;
-
-			if (now <= _target) {
+			if (now <= target) {
 				// we dont need to simulate yet!!
-				return setImmediate(_tick);
+				return setImmediate(tick);
 			}
 
 			// average out the delta!!
-			if (_this._deltas.length >= maxDeltaLength) {
-				_this._deltas.shift();
+			if (this.R9.length >= maxDeltaLength) {
+				this.R9.shift();
 			}
-			_this._deltas.push(delta);
+			this.R9.push(delta);
 
-			const averageDelta = (_this._deltas
-				.reduce((a, b) => a + b, 0) / (_this._deltas.length || 1));
+			const averageDelta = (_this.R9
+				.reduce((a, b) => a + b, 0) / (_this.R9.length || 1));
 
 			// shift some values !!!
-			_this._lastFrameTime = now;
-			_target = now + expectedLength;
+			this.R6 = now;
+			target = now + expectedLength;
 
-			if (_this._ConvertNanoToMs(Math.abs(expectedLength - averageDelta)) >= jitterThreshold) {
+			if (this._convert_nano_to_ms(Math.abs(expectedLength - averageDelta)) >= jitterThreshold) {
 				// lets shift the target !!!! :D
 
-				if (_this._option?.logs || _this._option?.dif_log) {
-					console.log(_this._ConvertNanoToMs(expectedLength - averageDelta));
+				if (_this._R0?.R3 || _this._R0?.R2) {
+					console.log(this._convert_nano_to_ms(expectedLength - averageDelta));
 				}
 
-				_target += expectedLength - averageDelta;
+				target += expectedLength - averageDelta;
 			}
 
-			// run the update !!
-			_this._update(_this._ConvertNanoToMs(delta) / 1000); // (delta in seconds)
+			// run the R10 !!
+			this.R5(_this._convert_nano_to_ms(delta) / 1000); // (delta in seconds)
 
-			if (_this._option?.logs || _this._option?.delta_log) {
-				console.log(`${_this._ConvertNanoToMs(delta)} ms`);
+			if (this._R0?.R3 || _this._R0?.R1) {
+				console.log(`${_this._convert_nano_to_ms(delta)} ms`);
 			}
 
-			const remaining = _target - _this._time();
+			const remaining = target - this._time();
 			if (remaining > expectedLength) {
 				// this shouldnt happen!
-				return setTimeout(_tick, _interval);
+				return setTimeout(tick, interval);
 			} else {
 				// to make it very precise, runs next event loop !!
-				return setImmediate(_tick);
+				return setImmediate(tick);
 			}
 		}
 
-		setTimeout(_tick, _interval);
+		setTimeout(tick, interval);
 
 		return this;
 	}
 	stop(): Loop {
-		this._running = false;
+		this.R7 = false;
 		return this;
 	}
 }
