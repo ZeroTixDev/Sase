@@ -4,4 +4,8 @@
 
 // Code from my npm package (accurate-game-loop) 
 
-module.exports.loop = () => console.error("UNIMPLEMENTED!!")
+module.exports = class Loop {
+  constructor() {
+    console.error("UNIMPLEMENTED!!")  
+  }
+}
